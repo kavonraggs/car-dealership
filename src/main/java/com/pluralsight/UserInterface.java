@@ -14,7 +14,11 @@ public class UserInterface {
 
     private Dealership init(){
         DealershipFileManager dfm = new DealershipFileManager();
-        return dfm.getDealership();
+        Dealership dealership = dfm.getDealership();
+        System.out.println("Welcome to " + dealership.getName() + "!");
+        System.out.println(dealership);
+        System.out.println();
+        return dealership;
     }
 
     public void display(){
@@ -53,6 +57,9 @@ public class UserInterface {
                     processRemoveVehicle();
                     break;
                 case "x":
+                case "X":
+                    DealershipFileManager dfm = new DealershipFileManager();
+                    dfm.saveDealership(dealership);
                     System.out.println("Goodbye!");
                     break;
                 default:
@@ -84,55 +91,44 @@ public class UserInterface {
         double min = Double.parseDouble(getInput("Min Price:"));
         double max = Double.parseDouble(getInput("Max price: "));
         List<Vehicle> matches = dealership.getVehiclesByPrice(min, max);
-        for (Vehicle m: matches){
-            System.out.println(m);
-        }
+        displayMatches(matches);
     }
     public void processGetByMakeModelRequest(){
         String make = getInput("Make:");
         String model = getInput("Model: ");
         List<Vehicle> matches = dealership.getVehiclesByMakeModel(make, model);
-        for (Vehicle m: matches){
-            System.out.println(m);
-        }
+        displayMatches(matches);
 
     }
     public void processGetByYearRequest(){
         int min = Integer.parseInt(getInput("Min Year:"));
         int max = Integer.parseInt(getInput("Max Year: "));
         List<Vehicle> matches = dealership.getVehiclesByYear(min, max);
-        for (Vehicle m: matches){
-            System.out.println(m);
-        }
+        displayMatches(matches);
 
     }
     public void processGetByColorRequest(){
         String color = getInput("Color: ");
         List<Vehicle> matches = dealership.getVehiclesByColor(color);
-        for (Vehicle m: matches){
-            System.out.println(m);
-        }
+        displayMatches(matches);
 
     }
     public void processGetByMileageRequest(){
         int min = Integer.parseInt(getInput("Min Miles:"));
         int max = Integer.parseInt(getInput("Max Miles: "));
         List<Vehicle> matches = dealership.getVehiclesByMileage(min, max);
-        for (Vehicle m: matches){
-            System.out.println(m);
-        }
+        displayMatches(matches);
     }
     public void processGetByVehicleTypeRequest(){
         String type = getInput("Vehicle Type: ");
         List<Vehicle> matches = dealership.getVehiclesByType(type);
-        for (Vehicle m: matches){
-            System.out.println(m);
-        }
+        displayMatches(matches);
 
 
     }
     public void processGetByAllVehicleRequest(){
-        dealership.getInventory();
+        List<Vehicle> allVehicles = dealership.getInventory();
+        displayMatches(allVehicles);
     }
     public void processAddVehicle(){
         int vin = Integer.parseInt(getInput("Vin: "));
@@ -145,16 +141,31 @@ public class UserInterface {
         double price = Double.parseDouble(getInput("Price: "));
 
         dealership.addVehicle(vin, year, make, model, type, color, odometer, price);
+        new DealershipFileManager().saveDealership(dealership);
+        System.out.println("Vehicle added to inventory");
     }
 
     public void processRemoveVehicle(){
         int vin = Integer.parseInt(getInput("Vin: "));
         dealership.removeVehicle(vin);
 
+        new DealershipFileManager().saveDealership(dealership);
+        System.out.println("Vehicle removed from inventory");
+
     }
 
     public String getInput(String prompt){
         System.out.println(prompt);
         return scanner.nextLine();
+    }
+
+    public void displayMatches(List<Vehicle> vehicles) {
+        if (vehicles.isEmpty()){
+            System.out.println("No vehicles matches found");
+        } else {
+            for (Vehicle v: vehicles){
+                System.out.println(v);
+            }
+        }
     }
 }

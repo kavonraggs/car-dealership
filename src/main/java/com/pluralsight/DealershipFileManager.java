@@ -1,9 +1,7 @@
 package com.pluralsight;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
+import java.sql.SQLOutput;
 
 public class DealershipFileManager {
 
@@ -40,8 +38,20 @@ public class DealershipFileManager {
         }return dealership;
     }
 
-    public void saveDealership(){
+    public void saveDealership(Dealership dealership){
+        try (BufferedWriter buffWriter = new BufferedWriter(new FileWriter("inventory.csv"))){
+            buffWriter.write(String.format("%s | %s | %s", dealership.getName(), dealership.getAddress(), dealership.getPhone()));
+            buffWriter.newLine();
 
+            for (Vehicle v: dealership.getInventory()) {
+                buffWriter.write(String.format("%d | %d | %s | %s | %s | %s | %d | %.2f", v.getVin(), v.getYear(), v.getMake(), v.getModel(), v.getVehicleType(), v.getColor(), v.getOdometer(), v.getPrice()));
+                buffWriter.newLine();
+            }
+            System.out.println("Inventory successfully saved");
+        } catch (IOException e)
+        {
+            System.out.println("Error saving dealership's data" + e.getMessage());
+        }
     }
 
 
