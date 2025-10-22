@@ -9,7 +9,6 @@ public class Dealership {
     private final String address;
     private final String phone;
     private final ArrayList<Vehicle> inventory = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in);
 
     public Dealership(String name, String address, String phone) {
         this.name = name;
@@ -49,7 +48,7 @@ public class Dealership {
     }
     public List<Vehicle> getVehiclesByColor(String color) {
         ArrayList<Vehicle> colorSearchList = new ArrayList<>();
-        for (com.pluralsight.Vehicle v: inventory){
+        for (Vehicle v: inventory){
             if (v.getColor().equalsIgnoreCase(color)){
                 colorSearchList.add(v);
             }
@@ -57,7 +56,7 @@ public class Dealership {
         return colorSearchList;
     }
 
-    public List<Vehicle> getVehicleByMileage(int minMiles, int maxMiles) {
+    public List<Vehicle> getVehiclesByMileage(int minMiles, int maxMiles) {
         ArrayList<Vehicle> mileSearchList = new ArrayList<>();
         for (Vehicle v: inventory){
             if (v.getOdometer() >= minMiles && v.getOdometer() <= maxMiles){
@@ -67,7 +66,7 @@ public class Dealership {
         return mileSearchList;
     }
 
-    public List<Vehicle> getVehicleByType(String type) {
+    public List<Vehicle> getVehiclesByType(String type) {
         ArrayList<Vehicle> typeSearchList = new ArrayList<>();
         for (Vehicle v: inventory) {
             if (v.getVehicleType().equalsIgnoreCase(type)){
@@ -75,10 +74,6 @@ public class Dealership {
             }
         }
         return typeSearchList;
-    }
-
-    public List<Vehicle> getAllVehicles(){
-        return new ArrayList<>(inventory);
     }
 
     public void addVehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price){
@@ -97,11 +92,6 @@ public class Dealership {
 //        }
     }
 
-    public String getInput(String prompt){
-        System.out.println(prompt);
-        return scanner.nextLine();
-    }
-
     public String getName() {
         return name;
     }
@@ -114,7 +104,7 @@ public class Dealership {
         return phone;
     }
 
-    public ArrayList<Vehicle> getInventory() {
+    public List<Vehicle> getInventory() {
         return inventory;
     }
 
