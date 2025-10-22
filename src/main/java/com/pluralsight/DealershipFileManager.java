@@ -1,7 +1,6 @@
 package com.pluralsight;
 
 import java.io.*;
-import java.sql.SQLOutput;
 
 public class DealershipFileManager {
 
