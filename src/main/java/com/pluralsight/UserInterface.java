@@ -17,7 +17,7 @@ public class UserInterface {
         Dealership dealership = dfm.getDealership();
         System.out.println("Welcome to " + dealership.getName() + "!");
         System.out.println(dealership);
-        System.out.println();
+        System.out.println("-------------------------");
         return dealership;
     }
 
@@ -88,8 +88,8 @@ public class UserInterface {
 
 
     public void processGetByPriceRequest(){
-        double min = Double.parseDouble(getInput("Min Price:"));
-        double max = Double.parseDouble(getInput("Max price: "));
+        Double min = tryParseDouble(getInput("Min price: "));
+        Double max = tryParseDouble(getInput("Max price: "));
         List<Vehicle> matches = dealership.getVehiclesByPrice(min, max);
         displayMatches(matches);
     }
@@ -101,8 +101,8 @@ public class UserInterface {
 
     }
     public void processGetByYearRequest(){
-        int min = Integer.parseInt(getInput("Min Year:"));
-        int max = Integer.parseInt(getInput("Max Year: "));
+        Integer min = tryParseInt(getInput("Min Year:"));
+        Integer max = tryParseInt(getInput("Max Year: "));
         List<Vehicle> matches = dealership.getVehiclesByYear(min, max);
         displayMatches(matches);
 
@@ -114,8 +114,8 @@ public class UserInterface {
 
     }
     public void processGetByMileageRequest(){
-        int min = Integer.parseInt(getInput("Min Miles:"));
-        int max = Integer.parseInt(getInput("Max Miles: "));
+        Integer min = tryParseInt(getInput("Min Miles:"));
+        Integer max = tryParseInt(getInput("Max Miles: "));
         List<Vehicle> matches = dealership.getVehiclesByMileage(min, max);
         displayMatches(matches);
     }
@@ -166,6 +166,28 @@ public class UserInterface {
             for (Vehicle v: vehicles){
                 System.out.println(v);
             }
+        }
+    }
+
+    private Double tryParseDouble(String input){
+        if (input == null || input.isBlank()){
+            return null;
+        } try {
+            return Double.parseDouble(input.trim());
+        } catch (NumberFormatException e){
+            System.out.println("Invalid input. Null assigned to " + input);
+            return null;
+        }
+    }
+
+    private Integer tryParseInt(String input){
+        if (input == null || input.isBlank()){
+            return null;
+        } try {
+            return Integer.parseInt(input.trim());
+        } catch (NumberFormatException e){
+            System.out.println("Invalid input. Null assigned to " + input);
+            return null;
         }
     }
 }

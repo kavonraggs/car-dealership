@@ -21,14 +21,14 @@ public class DealershipFileManager {
                 String[] parts = line.split("\\|");
                 if (parts.length < 8) continue;
 
-                int vin = Integer.parseInt(parts[0]);
-                int year = Integer.parseInt(parts[1]);
-                String make = parts[2];
-                String model = parts[3];
-                String vehicleType = parts[4];
-                String color = parts[5];
-                int odometer = Integer.parseInt(parts[6]);
-                double price = Double.parseDouble(parts[7]);
+                int vin = Integer.parseInt(parts[0].trim());
+                int year = Integer.parseInt(parts[1].trim());
+                String make = parts[2].trim();
+                String model = parts[3].trim();
+                String vehicleType = parts[4].trim();
+                String color = parts[5].trim();
+                int odometer = Integer.parseInt(parts[6].trim());
+                double price = Double.parseDouble(parts[7].trim());
 
                 dealership.addVehicle(vin, year, make, model, vehicleType, color, odometer, price);
             }

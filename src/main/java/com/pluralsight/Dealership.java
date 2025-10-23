@@ -15,10 +15,14 @@ public class Dealership {
         this.phone = phone;
     }
 
-    public List<Vehicle> getVehiclesByPrice(double minPrice, double maxPrice){
+    public List<Vehicle> getVehiclesByPrice(Double minPrice, Double maxPrice) {
         ArrayList<Vehicle> priceSearchList = new ArrayList<>();
-        for (Vehicle v: inventory){
-            if (v.getPrice() >= minPrice && v.getPrice() <= maxPrice){
+
+        for (Vehicle v : inventory) {
+            boolean minPriceMatch = (minPrice == null) || (v.getPrice() >= minPrice);
+            boolean maxPriceMatch = (maxPrice == null) || (v.getPrice() <= maxPrice);
+
+            if (minPriceMatch && maxPriceMatch) {
                 priceSearchList.add(v);
             }
         }
@@ -26,39 +30,60 @@ public class Dealership {
     }
 
 
-    public List<Vehicle> getVehiclesByMakeModel(String make, String model){
+    public List<Vehicle> getVehiclesByMakeModel(String make, String model) {
         ArrayList<Vehicle> makeModelSearch = new ArrayList<>();
-        for (Vehicle v: inventory){
-            if (v.getMake().equalsIgnoreCase(make) && v.getModel().equalsIgnoreCase(model)){
+        if (make == null) {
+            make = "";
+        }
+        if (model == null) {
+            model = "";
+        }
+
+        for (Vehicle v : inventory) {
+            boolean makeMatch = make.isBlank() || v.getMake().equalsIgnoreCase(make);
+            boolean modelMatch = model.isBlank() || v.getModel().equalsIgnoreCase(model);
+
+            if (makeMatch && modelMatch) {
                 makeModelSearch.add(v);
             }
         }
         return makeModelSearch;
     }
 
-    public List<Vehicle> getVehiclesByYear(int minYear, int maxYear){
+    public List<Vehicle> getVehiclesByYear(Integer minYear, Integer maxYear) {
         ArrayList<Vehicle> yearSearchList = new ArrayList<>();
-        for (Vehicle v: inventory){
-            if (v.getYear() >= minYear && v.getYear() <= maxYear){
+        for (Vehicle v : inventory) {
+            boolean minYearMatch = (minYear == null) || (v.getYear() >= minYear);
+            boolean maxYearMatch = (maxYear == null) || (v.getYear() <= maxYear);
+
+            if (minYearMatch && maxYearMatch) {
                 yearSearchList.add(v);
             }
         }
         return yearSearchList;
     }
+
     public List<Vehicle> getVehiclesByColor(String color) {
         ArrayList<Vehicle> colorSearchList = new ArrayList<>();
-        for (Vehicle v: inventory){
-            if (v.getColor().equalsIgnoreCase(color)){
-                colorSearchList.add(v);
+        if (color == null || color.isBlank()) {
+            colorSearchList.addAll(inventory);
+        } else {
+            for (Vehicle v : inventory) {
+                if (v.getColor().equalsIgnoreCase(color)) {
+                    colorSearchList.add(v);
+                }
             }
         }
         return colorSearchList;
     }
 
-    public List<Vehicle> getVehiclesByMileage(int minMiles, int maxMiles) {
+    public List<Vehicle> getVehiclesByMileage(Integer minMiles, Integer maxMiles) {
         ArrayList<Vehicle> mileSearchList = new ArrayList<>();
-        for (Vehicle v: inventory){
-            if (v.getOdometer() >= minMiles && v.getOdometer() <= maxMiles){
+        for (Vehicle v : inventory) {
+            boolean minMileMatch = (minMiles == null) || (v.getOdometer() >= minMiles);
+            boolean maxMileMatch = (maxMiles == null) || (v.getOdometer() <= maxMiles);
+
+            if (minMileMatch && maxMileMatch) {
                 mileSearchList.add(v);
             }
         }
@@ -67,21 +92,25 @@ public class Dealership {
 
     public List<Vehicle> getVehiclesByType(String type) {
         ArrayList<Vehicle> typeSearchList = new ArrayList<>();
-        for (Vehicle v: inventory) {
-            if (v.getVehicleType().equalsIgnoreCase(type)){
-                typeSearchList.add(v);
+        if (type == null || type.isBlank()) {
+            typeSearchList.addAll(inventory);
+        } else {
+            for (Vehicle v : inventory) {
+                if (v.getVehicleType().equalsIgnoreCase(type)) {
+                    typeSearchList.add(v);
+                }
             }
         }
         return typeSearchList;
     }
 
-    public void addVehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price){
+    public void addVehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price) {
         Vehicle vehicle = new Vehicle(vin, year, make, model, vehicleType, color, odometer, price);
         inventory.add(vehicle);
 
     }
 
-    public void removeVehicle(int vin){
+    public void removeVehicle(int vin) {
         inventory.removeIf(v -> v.getVin() == vin);
         //(Found cleaner code via IntelliJ)
 //        for (Vehicle v: inventory) {
