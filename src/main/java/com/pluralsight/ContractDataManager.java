@@ -34,14 +34,14 @@ public class ContractDataManager {
         stringBuilder.append(v.getVehicleType()).append("|");
         stringBuilder.append(v.getColor()).append("|");
         stringBuilder.append(v.getOdometer()).append("|");
-        stringBuilder.append(v.getPrice()).append("|");
+        stringBuilder.append(String.format("%.2f",v.getPrice())).append("|");
 
         if (contract instanceof LeaseContract leaseContract){
             stringBuilder.append("LEASE|");
             stringBuilder.append(String.format("%.2f", leaseContract.getLeaseFee())).append("|");
             stringBuilder.append(String.format("%.2f", leaseContract.getExpectedEndingValue())).append("|");
             stringBuilder.append(String.format("%.2f", leaseContract.getTotalPrice())).append("|");
-            stringBuilder.append(String.format("%.2f", leaseContract.getMonthlyPayment())).append("|");
+            stringBuilder.append(String.format("%.2f", leaseContract.getMonthlyPayment()));
 
         }
 
@@ -52,7 +52,7 @@ public class ContractDataManager {
             stringBuilder.append(String.format("%.2f", salesContract.getProcessingFee())).append("|");
             stringBuilder.append(String.format("%.2f", salesContract.getTotalPrice())).append("|");
             stringBuilder.append(String.format("%.2f", salesContract.getMonthlyPayment())).append("|");
-            stringBuilder.append(salesContract.isFinanced()).append("|");
+            stringBuilder.append(salesContract.isFinanced());
         }
 
         return stringBuilder.toString();
