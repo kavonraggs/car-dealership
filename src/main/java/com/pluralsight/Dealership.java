@@ -77,6 +77,14 @@ public class Dealership {
         return colorSearchList;
     }
 
+    public Vehicle getVehiclesByVin(int vin) {
+            for (Vehicle v : inventory) {
+                if (v.getVin() == vin) return v;
+            }
+        return null;
+    }
+
+
     public List<Vehicle> getVehiclesByMileage(Integer minMiles, Integer maxMiles) {
         ArrayList<Vehicle> mileSearchList = new ArrayList<>();
         for (Vehicle v : inventory) {

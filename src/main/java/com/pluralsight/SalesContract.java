@@ -7,7 +7,7 @@ public class SalesContract extends Contract{
     private boolean isFinanced;
 
     public SalesContract(String date, String name, String email, Vehicle vehicleSold, boolean isFinanced) {
-        super(date, name, email, vehicleSold, 0, 0);
+        super(date, name, email, vehicleSold);
         this.salesTax = 0.05;
         this.recordingFee = 100;
         this.isFinanced = isFinanced;
@@ -62,5 +62,14 @@ public class SalesContract extends Contract{
                 return (total * (1 + .0525)) / 24;
             }
         } else{ return 0;}
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "\nSales Tax: " + salesTax +
+                "\nRecording Fee: " + recordingFee +
+                "\nProcessing Fee: " + processingFee +
+                "\nFinanced: " + isFinanced ;
     }
 }

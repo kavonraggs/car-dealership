@@ -1,5 +1,7 @@
 package com.pluralsight;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,6 +58,12 @@ public class UserInterface {
                 case "9":
                     processRemoveVehicle();
                     break;
+                case "L":
+                    processLeaseVehicle();
+                    break;
+                case "B":
+                    processBuyVehicle();
+                    break;
                 case "x":
                 case "X":
                     DealershipFileManager dfm = new DealershipFileManager();
@@ -82,6 +90,8 @@ public class UserInterface {
                 7) Show all vehicles
                 8) Add vehicle
                 9) Remove vehicle
+                L) Lease vehicle
+                B) Buy vehicle
                 """;
         System.out.println(menu);
     }
@@ -167,6 +177,56 @@ public class UserInterface {
                 System.out.println(v);
             }
         }
+    }
+
+    public void processLeaseVehicle(){
+        LocalDate today = LocalDate.now();
+        int vin  = Integer.parseInt(getInput("What is the VIN of the car you want you lease?"));
+        String name = getInput("What is your name?");
+        String email = getInput("What is your email?");
+
+        Vehicle vehicleSold = dealership.getVehiclesByVin(vin);
+        if (vehicleSold == null) {
+            System.out.println("No vehicle with that vin number found.");
+            return;
+        }
+
+        LeaseContract leaseContract = new LeaseContract(today.toString(), name, email, vehicleSold);
+        System.out.println(leaseContract);
+
+        ContractDataManager cdm = new ContractDataManager();
+        cdm.saveContract(leaseContract);
+
+        dealership.removeVehicle(vin);
+        new DealershipFileManager().saveDealership(dealership);
+
+    }
+
+    public void processBuyVehicle(){
+        boolean isFinanced;
+        int vin  = Integer.parseInt(getInput("What is the VIN of the car you want you buy?"));
+        LocalDate today = LocalDate.now();
+        String name = getInput("What is your name?");
+        String email = getInput("What is your email?");
+
+        Vehicle vehicleSold = dealership.getVehiclesByVin(vin);
+        if (vehicleSold == null) {
+            System.out.println("No vehicle with that vin number found.");
+            return;
+        }
+
+        String financePrompt = getInput("Do you want to finance this vehicle? (y/n)");
+
+        isFinanced = financePrompt.equalsIgnoreCase("Y") || financePrompt.equalsIgnoreCase("yes");
+
+        SalesContract salesContract = new SalesContract(today.toString(), name, email, vehicleSold, isFinanced);
+        System.out.println(salesContract);
+
+        ContractDataManager cfm = new ContractDataManager();
+        cfm.saveContract(salesContract);
+
+        dealership.removeVehicle(vin);
+        new DealershipFileManager().saveDealership(dealership);
     }
 
     private Double tryParseDouble(String input){
