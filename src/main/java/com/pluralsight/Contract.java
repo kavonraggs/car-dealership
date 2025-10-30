@@ -55,7 +55,7 @@ public abstract class Contract {
 
     @Override
     public String toString() {
-        return "Date: '" + date  +
+        return "Date: " + date  +
                 "\nName: " + name +
                 "\nEmail: " + email  +
                 "\nVehicle: " + vehicleSold +

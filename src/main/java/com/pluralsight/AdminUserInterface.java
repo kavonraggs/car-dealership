@@ -98,6 +98,7 @@ public class AdminUserInterface {
     public void displayContracts(ArrayList<Contract> contracts) {
         for (Contract contract : contracts) {
             System.out.println(contract);
+            System.out.println("-----------------------------");
         }
     }
 
