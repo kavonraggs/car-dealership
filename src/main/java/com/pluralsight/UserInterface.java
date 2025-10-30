@@ -12,25 +12,20 @@ public class UserInterface {
 
     public UserInterface(Dealership dealership){
         this.dealership = dealership;
-
-
-    }
-
-    private Dealership init(){
-        DealershipFileManager dfm = new DealershipFileManager();
-        Dealership dealership = dfm.getDealership();
         System.out.println("Welcome to " + dealership.getName() + "!");
         System.out.println(dealership);
         System.out.println("-------------------------");
-        return dealership;
+
     }
+
+
 
     public void display(){
         String userInput;
         do {
             displayMenu();
 
-            userInput = getInput("Enter corresponding character: ");
+            userInput = getInput("Enter corresponding character: ").toUpperCase();
 
             switch (userInput){
                 case "1":
@@ -190,14 +185,15 @@ public class UserInterface {
     public void processLeaseVehicle(){
         LocalDate today = LocalDate.now();
         int vin  = Integer.parseInt(getInput("What is the VIN of the car you want you lease? "));
-        String name = getInput("What is your name? ");
-        String email = getInput("What is your email? ");
 
         Vehicle vehicleSold = dealership.getVehiclesByVin(vin);
         if (vehicleSold == null) {
             System.out.println("No vehicle with that vin number found.");
             return;
         }
+
+        String name = getInput("What is your name? ");
+        String email = getInput("What is your email? ");
 
         LeaseContract leaseContract = new LeaseContract(today.toString(), name, email, vehicleSold);
         System.out.println(leaseContract);

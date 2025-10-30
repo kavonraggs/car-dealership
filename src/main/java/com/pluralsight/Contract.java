@@ -59,7 +59,7 @@ public abstract class Contract {
                 "\nName: " + name +
                 "\nEmail: " + email  +
                 "\nVehicle: " + vehicleSold +
-                "\nTotal Price: $" + totalPrice +
-                "\nMonthly Payment: $" + monthlyPayment + "/month";
+                "\nTotal Price: $" + String.format("%.2f", getTotalPrice()) +
+                "\nMonthly Payment: $" + String.format("%.2f/month", getMonthlyPayment());
     }
 }

@@ -67,9 +67,9 @@ public class SalesContract extends Contract{
     @Override
     public String toString() {
         return super.toString() +
-                "\nSales Tax: " + salesTax +
-                "\nRecording Fee: " + recordingFee +
-                "\nProcessing Fee: " + processingFee +
+                "\nSales Tax: " + String.format("%.2f", getSalesTax()) +
+                "\nRecording Fee: " + String.format("%.2f", getRecordingFee()) +
+                "\nProcessing Fee: " + String.format("%.2f", getProcessingFee()) +
                 "\nFinanced: " + isFinanced ;
     }
 }

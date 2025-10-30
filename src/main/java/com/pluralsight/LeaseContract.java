@@ -29,18 +29,18 @@ public class LeaseContract extends Contract{
     @Override
     public double getTotalPrice() {
         double price = getVehicleSold().getPrice();
-        return price + leaseFee;
+        return price + getLeaseFee();
     }
 
     @Override
     public double getMonthlyPayment() {
-        return (getTotalPrice() * (1 + 0.04)) / 36;
+        return ((getTotalPrice() - expectedEndingValue) / 36) * (1 + 0.04) ;
     }
 
     @Override
     public String toString() {
         return super.toString() +
-                "\nExpected Ending Value: " + expectedEndingValue +
-                "\nLease Fee: " + leaseFee;
+                "\nExpected Ending Value: " + String.format("%.2f", getExpectedEndingValue()) +
+                "\nLease Fee: " + String.format("%.2f", getLeaseFee());
     }
 }
