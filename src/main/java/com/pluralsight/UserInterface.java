@@ -6,11 +6,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserInterface {
-    Dealership dealership;
     Scanner scanner = new Scanner(System.in);
+    Dealership dealership;
 
-    public UserInterface(){
-        this.dealership = init();
+
+    public UserInterface(Dealership dealership){
+        this.dealership = dealership;
+
 
     }
 
@@ -64,10 +66,13 @@ public class UserInterface {
                 case "B":
                     processBuyVehicle();
                     break;
+                case "A":
+                    new AdminUserInterface(dealership).run();
+                    break;
                 case "x":
                 case "X":
-                    DealershipFileManager dfm = new DealershipFileManager();
-                    dfm.saveDealership(dealership);
+                    new DealershipFileManager().saveDealership(dealership);
+                    System.out.println("Saving data...");
                     System.out.println("Goodbye!");
                     break;
                 default:
@@ -78,6 +83,7 @@ public class UserInterface {
         } while (!userInput.equalsIgnoreCase("X"));
 
     }
+
 
     public void displayMenu(){
         String menu = """
@@ -92,6 +98,7 @@ public class UserInterface {
                 9) Remove vehicle
                 L) Lease vehicle
                 B) Buy vehicle
+                A) Access Admin Menu
                 """;
         System.out.println(menu);
     }
@@ -104,14 +111,14 @@ public class UserInterface {
         displayMatches(matches);
     }
     public void processGetByMakeModelRequest(){
-        String make = getInput("Make:");
+        String make = getInput("Make: ");
         String model = getInput("Model: ");
         List<Vehicle> matches = dealership.getVehiclesByMakeModel(make, model);
         displayMatches(matches);
 
     }
     public void processGetByYearRequest(){
-        Integer min = tryParseInt(getInput("Min Year:"));
+        Integer min = tryParseInt(getInput("Min Year: "));
         Integer max = tryParseInt(getInput("Max Year: "));
         List<Vehicle> matches = dealership.getVehiclesByYear(min, max);
         displayMatches(matches);
@@ -124,7 +131,7 @@ public class UserInterface {
 
     }
     public void processGetByMileageRequest(){
-        Integer min = tryParseInt(getInput("Min Miles:"));
+        Integer min = tryParseInt(getInput("Min Miles: "));
         Integer max = tryParseInt(getInput("Max Miles: "));
         List<Vehicle> matches = dealership.getVehiclesByMileage(min, max);
         displayMatches(matches);
@@ -165,7 +172,7 @@ public class UserInterface {
     }
 
     public String getInput(String prompt){
-        System.out.println(prompt);
+        System.out.print(prompt);
         return scanner.nextLine();
     }
 
@@ -175,15 +182,16 @@ public class UserInterface {
         } else {
             for (Vehicle v: vehicles){
                 System.out.println(v);
+                System.out.println("------------");
             }
         }
     }
 
     public void processLeaseVehicle(){
         LocalDate today = LocalDate.now();
-        int vin  = Integer.parseInt(getInput("What is the VIN of the car you want you lease?"));
-        String name = getInput("What is your name?");
-        String email = getInput("What is your email?");
+        int vin  = Integer.parseInt(getInput("What is the VIN of the car you want you lease? "));
+        String name = getInput("What is your name? ");
+        String email = getInput("What is your email? ");
 
         Vehicle vehicleSold = dealership.getVehiclesByVin(vin);
         if (vehicleSold == null) {
@@ -204,10 +212,10 @@ public class UserInterface {
 
     public void processBuyVehicle(){
         boolean isFinanced;
-        int vin  = Integer.parseInt(getInput("What is the VIN of the car you want you buy?"));
+        int vin  = Integer.parseInt(getInput("What is the VIN of the car you want you buy? "));
         LocalDate today = LocalDate.now();
-        String name = getInput("What is your name?");
-        String email = getInput("What is your email?");
+        String name = getInput("What is your name? ");
+        String email = getInput("What is your email? ");
 
         Vehicle vehicleSold = dealership.getVehiclesByVin(vin);
         if (vehicleSold == null) {
@@ -215,7 +223,7 @@ public class UserInterface {
             return;
         }
 
-        String financePrompt = getInput("Do you want to finance this vehicle? (y/n)");
+        String financePrompt = getInput("Do you want to finance this vehicle? (y/n) ");
 
         isFinanced = financePrompt.equalsIgnoreCase("Y") || financePrompt.equalsIgnoreCase("yes");
 

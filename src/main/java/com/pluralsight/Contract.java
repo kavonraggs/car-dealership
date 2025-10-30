@@ -56,10 +56,10 @@ public abstract class Contract {
     @Override
     public String toString() {
         return "Date: '" + date  +
-                "Name: " + name +
-                "Email: " + email  +
-                "Vehicle: " + vehicleSold +
-                "Total Price: $" + totalPrice +
-                "Monthly Payment: $" + monthlyPayment + "/month";
+                "\nName: " + name +
+                "\nEmail: " + email  +
+                "\nVehicle: " + vehicleSold +
+                "\nTotal Price: $" + totalPrice +
+                "\nMonthly Payment: $" + monthlyPayment + "/month";
     }
 }
